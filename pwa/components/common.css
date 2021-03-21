@@ -1,0 +1,21 @@
+div.page-loading {
+  height: calc(100vh - 46px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+div.part-loading {
+  text-align: center;
+}
+
+div.container {
+  padding: 32px;
+}
+
+font.title {
+  display: block;
+  font-size: 20px;
+  margin-bottom: 20px;
+}

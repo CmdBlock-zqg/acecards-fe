@@ -15,6 +15,7 @@
 <script setup>
 import { onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
+import { Dialog } from 'vant';
 
 import db from '../plugins/db.js'
 import axios from '../plugins/axios.js'
@@ -26,13 +27,19 @@ ref: status = 0
 onMounted(async () => {
   const token = await db.data.get('token')
   if (token) {
+    window.localStorage['token'] = token
+    window.localStorage['name'] = token.split('.')[2]
     router.push('/study')
     return
   }
   if (route.query.code) {
     status = 2
     const { data } = await axios.post('/login', { code: route.query.code })
+    const name = data.split('.')[2]
     await db.data.set('token', data)
+    await db.data.set('name', name)
+    window.localStorage['token'] = data
+    window.localStorage['name'] = name
     router.push('/study')
     return
   }
@@ -44,8 +51,17 @@ const aauth = () => {
 }
 
 const offline = async () => {
-  await db.data.set('token', 'OFFLINE')
-  router.push('/study')
+  Dialog.confirm({
+    title: '确认离线登录？',
+    message: '若离线登录，所有数据将存储在本地，清空无法找回。是否继续？'
+  })
+    .then(async () => {
+      await db.data.set('token', 'OFFLINE')
+      await db.data.set('name', '离线用户')
+      window.localStorage['token'] = 'OFFLINE'
+      window.localStorage['name'] = '离线用户'
+      router.push('/study')
+    })
 }
 
 </script>
