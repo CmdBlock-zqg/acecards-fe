@@ -36,6 +36,12 @@ export default {
       const deck = await db.deck.get(id)
       return deck ? deck.record : false
     },
+    updateName: async (id, name) => {
+      await db.deck.update(id, { name })
+    },
+    clearRecord: async (id) => {
+      await db.deck.update(id, { process: 0, record: [] })
+    },
     insert: async (deck) => {
       await db.deck.put({
         id: deck['_id'],
@@ -45,6 +51,9 @@ export default {
         cards: deck.cards,
         record: deck.record
       })
+    },
+    delete: async (id) => {
+      await db.deck.delete(id)
     }
   }
 }
