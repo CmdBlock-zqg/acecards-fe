@@ -95,22 +95,28 @@
       return
     }
     dialog.lock = true
-    console.log(dialog.t)
-    await axios.post('/deck', {
-      name: dialog.name,
-      template: dialog.t['_id'],
-      ordered: dialog.ordered === 'true'
-    })
-    router.back()
+    try {
+      await axios.post('/deck', {
+        name: dialog.name,
+        template: dialog.t['_id'],
+        ordered: dialog.ordered === 'true'
+      })
+    } finally {
+      router.back()
+    }
   }
 
   onMounted(async () => {
-    const { data } = await axios.get('/template')
-    for (const i of data) {
-      if (i.user === '') template.public.push(i)
-      else template.private.push(i)
+    try {
+      const { data } = await axios.get('/template')
+      for (const i of data) {
+        if (i.user === '') template.public.push(i)
+        else template.private.push(i)
+      }
+      loading = false
+    } catch {
+      router.back()
     }
-    loading = false
   })
 
 </script>

@@ -8,12 +8,20 @@ db.version(1).stores({
 })
 
 export default {
+  clearAll: async () => {
+    await db.data.clear()
+    await db.deck.clear()
+  },
   data: {
     set: async (key, value) => {
       await db.data.put({ id: key, value: value })
     },
     get: async (key) => {
-      return (await db.data.get(key)).value
+      const data = await db.data.get(key)
+      return data ? data : false
+    },
+    delete: async (key) => {
+      await db.data.delete(key)
     }
   },
   deck: {
@@ -27,6 +35,16 @@ export default {
     getRecord: async (id) => {
       const deck = await db.deck.get(id)
       return deck ? deck.record : false
+    },
+    insert: async (deck) => {
+      await db.deck.put({
+        id: deck['_id'],
+        name: deck.name,
+        total: deck.total,
+        process: deck.process,
+        cards: deck.cards,
+        record: deck.record
+      })
     }
   }
 }
