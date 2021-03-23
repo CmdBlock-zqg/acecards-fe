@@ -61,7 +61,6 @@ import axios from'../../plugins/axios.js'
 import db from '../../plugins/db.js'
 
 const router = useRouter()
-const refresh = inject('refresh')
 
 ref: tab = 1
 watch($tab, () => {
@@ -79,14 +78,17 @@ const remoteList = computed(() => {
   return list.filter((v) => !localIds.includes(v['_id']))
 })
 
-onMounted(async () => {
+const init = async () => {
+  loading = true
   localList = await db.deck.getList()
   try {
     list = (await axios.get('/deck/')).data
   } finally {
     loading = false
   }
-})
+}
+
+onMounted(init)
 
 const download = async (id) => {
   const toast = Toast.loading({
@@ -173,7 +175,7 @@ const act = (action, index) => {
         await db.deck.delete(setting.deck.id)
         await axios.delete('/deck/' + setting.deck.id)
         Toast.clear()
-        refresh()
+        await init()
       })
   }
 }
@@ -205,7 +207,8 @@ const updateName = async (action) => {
     Toast.fail('操作失败，请检查网络连接')
   } finally {
     await new Promise((resolve) => setTimeout(resolve, 1000))
-    refresh()
+    await init()
+    setting.rename.show = false
   }
 }
 
