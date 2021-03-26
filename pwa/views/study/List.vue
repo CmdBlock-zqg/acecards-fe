@@ -17,7 +17,7 @@ const router = useRouter()
 
 ref: tab = 0
 watch($tab, () => {
-  const path = ['/study', '/deck', '/setting']
+  const path = ['/study', '/deck', '/settings']
   router.push(path[tab])
 })
 

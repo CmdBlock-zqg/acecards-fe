@@ -18,6 +18,10 @@ const routes = [
   {
     path: '/deck/new',
     component: () => import('./views/deck/New.vue')
+  },
+  {
+    path: '/settings',
+    component: () => import('./views/Settings.vue')
   }
 ]
 

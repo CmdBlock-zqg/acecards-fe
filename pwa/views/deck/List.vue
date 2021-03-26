@@ -51,7 +51,7 @@
 </template>
 
 <script setup>
-import { watch, onMounted, reactive, computed, inject } from 'vue'
+import { watch, onMounted, reactive, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { Toast, Dialog } from 'vant'
 
@@ -64,7 +64,7 @@ const router = useRouter()
 
 ref: tab = 1
 watch($tab, () => {
-  const path = ['/study', '/deck', '/setting']
+  const path = ['/study', '/deck', '/settings']
   router.push(path[tab])
 })
 
