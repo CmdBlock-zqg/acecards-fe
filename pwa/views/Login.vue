@@ -4,8 +4,8 @@
   </div>
   <div v-if="status === 1" class="container">
     <div class="login">
-      <font class="title">AceCards</font>
-      <font class="subtitle">卡片式记忆APP</font>
+      <span class="title">AceCards</span>
+      <span class="subtitle">卡片式记忆APP</span>
       <van-button type="primary" block class="button" @click="aauth">登录</van-button>
       <van-button type="primary" block plain class="button" @click="offline">离线体验</van-button>
     </div>
@@ -13,9 +13,10 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue'
+import { inject } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import { Dialog } from 'vant';
+
+const Dialog = inject('vant-dialog')
 
 import db from '../plugins/db.js'
 import axios from '../plugins/axios.js'
@@ -24,7 +25,7 @@ const router = useRouter(), route = useRoute()
 
 ref: status = 0
 
-onMounted(async () => {
+const init = async () => {
   const token = await db.data.get('token')
   if (token) {
     window.localStorage['token'] = token
@@ -44,7 +45,9 @@ onMounted(async () => {
     return
   }
   status = 1
-})
+}
+
+init()
 
 const aauth = () => {
   window.location.href = 'https://aauth.link/#/launch/44pd4z9iwn85kxqb6v2rgxdqdq8dtfrow'
@@ -62,6 +65,7 @@ const offline = async () => {
       window.localStorage['name'] = '离线用户'
       router.push('/study')
     })
+    .catch(() => { return })
 }
 
 </script>
@@ -90,11 +94,11 @@ const offline = async () => {
     flex-direction: column;
     align-items: center;
   }
-  font.title {
+  span.title {
     font-size: 36px;
     margin-bottom: 20px;
   }
-  font.subtitle {
+  span.subtitle {
     font-size: 20px;
     margin-bottom: 60px;
   }

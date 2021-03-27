@@ -16,12 +16,12 @@
   </van-nav-bar>
 
   <div class="container">
-    <font class="title">本地卡组</font>
+    <span class="title">本地卡组</span>
     <template v-for="i in localList" :key="i.id">
       <ItemCard :name="i.name" :now="i.process" :tot="i.total" icon="setting-o" @click="showSettings(i)"></ItemCard>
     </template>
     <van-divider />
-    <font class="title">未下载卡组</font>
+    <span class="title">未下载卡组</span>
     <div class="part-loading" v-if="loading">
       <van-loading color="#1989fa" size="32" />
     </div>
@@ -51,9 +51,11 @@
 </template>
 
 <script setup>
-import { watch, onMounted, reactive, computed } from 'vue'
+import { watch, reactive, computed, inject } from 'vue'
 import { useRouter } from 'vue-router'
-import { Toast, Dialog } from 'vant'
+
+const Toast = inject('vant-toast')
+const Dialog = inject('vant-dialog')
 
 import ItemCard from '../../components/ItemCard.vue'
 
@@ -88,7 +90,7 @@ const init = async () => {
   }
 }
 
-onMounted(init)
+init()
 
 const download = async (id) => {
   const toast = Toast.loading({
@@ -146,6 +148,7 @@ const act = (action, index) => {
         localList = await db.deck.getList()
         Toast.clear()
       })
+      .catch(() => { return })
   } else if (index === 2) { // del local
     Dialog.confirm({
       title: '确认从本地删除卡组？',
@@ -161,6 +164,7 @@ const act = (action, index) => {
         localList = await db.deck.getList()
         Toast.clear()
       })
+      .catch(() => { return })
   } else if (index === 3) { // del remote
     Dialog.confirm({
       title: '确认从彻底删除卡组？',
@@ -177,6 +181,7 @@ const act = (action, index) => {
         Toast.clear()
         await init()
       })
+      .catch(() => { return })
   }
 }
 

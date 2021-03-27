@@ -11,10 +11,10 @@
   </div>
 
   <div class="container" v-else>
-    <font class="title">我的模板</font>
+    <span class="title">我的模板</span>
     <div class="item" v-for="i in template.private" :key="i.id">
       <div class="display">
-        <b style="font-size: 1.1rem;">{{ i.name }}</b>
+        <b style="span-size: 1.1rem;">{{ i.name }}</b>
         <br>
         <span>内含{{ i.count }}张卡片</span>
       </div>
@@ -23,7 +23,7 @@
       </div>
     </div>
     <van-divider />
-    <font class="title">系统模板</font>
+    <span class="title">系统模板</span>
     <div class="item" v-for="i in template.public" :key="i.id">
       <div class="display">
         <b style="font-size: 1.1rem;">{{ i.name }}</b>
@@ -57,9 +57,10 @@
 </template>
 
 <script setup>
-  import { onMounted, reactive } from 'vue'
+  import { reactive, inject } from 'vue'
   import { useRouter } from 'vue-router'
-  import { Toast } from 'vant'
+
+  const Toast = inject('vant-toast')
 
   import axios from '../../plugins/axios.js'
 
@@ -106,7 +107,7 @@
     }
   }
 
-  onMounted(async () => {
+  const init = async () => {
     try {
       const { data } = await axios.get('/template')
       for (const i of data) {
@@ -117,7 +118,9 @@
     } catch {
       router.back()
     }
-  })
+  }
+
+  init()
 
 </script>
 

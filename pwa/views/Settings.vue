@@ -20,10 +20,10 @@
 </template>
 
 <script setup>
-import { watch } from 'vue'
+import { watch, inject } from 'vue'
 import { useRouter } from 'vue-router'
 
-import { Dialog } from 'vant'
+const Dialog = inject('vant-dialog')
 
 import db from '../plugins/db.js'
 
@@ -44,10 +44,8 @@ const logout = () => {
   })
     .then(async () => {
       await db.clearAll()
-      window.location.href = '/pwa'
+      window.location.href = '/pwa/#/'
     })
+    .catch(() => { return })
 }
 </script>
-
-<style scoped>
-</style>

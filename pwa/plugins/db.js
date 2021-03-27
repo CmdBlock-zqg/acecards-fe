@@ -18,7 +18,7 @@ export default {
     },
     get: async (key) => {
       const data = await db.data.get(key)
-      return data ? data : false
+      return data ? data.value : false
     },
     delete: async (key) => {
       await db.data.delete(key)
@@ -28,13 +28,9 @@ export default {
     getList: async () => {
       return await db.deck.toArray()
     },
-    getCards: async (id) => {
+    get: async (id) => {
       const deck = await db.deck.get(id)
-      return deck ? deck.cards : false
-    },
-    getRecord: async (id) => {
-      const deck = await db.deck.get(id)
-      return deck ? deck.record : false
+      return deck
     },
     updateName: async (id, name) => {
       await db.deck.update(id, { name })

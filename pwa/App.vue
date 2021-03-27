@@ -1,20 +1,15 @@
 <template>
   <div style="margin: 0 auto; max-width: 500px;">
-    <router-view v-if="status"></router-view>
+    <router-view></router-view>
   </div>
 </template>
 
 <script setup>
-import { provide, nextTick } from 'vue'
+import { provide } from 'vue'
+import { Dialog, Toast } from 'vant'
 
-ref: status = true
-
-provide('refresh', () => {
-  status = false
-  nextTick(() => {
-    status = true
-  })
-})
+provide('vant-toast', Toast)
+provide('vant-dialog', Dialog)
 
 </script>
 
