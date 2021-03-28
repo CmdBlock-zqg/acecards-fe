@@ -19,7 +19,7 @@
 
   <van-action-sheet
     v-model:show="studyOptions.show"
-    :actions="[{ name: '智能复习' }, { name: '学习+智能复习' }, { name: '乱序复习' }]"
+    :actions="[{ name: '智能复习' }, { name: '学习+智能复习' }, { name: '乱序逐个复习' }]"
     cancel-text="取消"
     :description="`卡组 ${studyOptions.deck.name}`"
     close-on-click-action
@@ -38,11 +38,11 @@
 </template>
 
 <script setup>
-import { Dialog } from 'vant'
-import { watch, reactive } from 'vue'
+import { watch, reactive, inject } from 'vue'
 import { useRouter } from 'vue-router'
 
 import ItemCard from '../../components/ItemCard.vue'
+const Dialog = inject('vant-dialog')
 
 import db from '../../plugins/db.js'
 
@@ -80,6 +80,12 @@ const showStudyOptions = async (deck) => {
 const study = async (action, index) => {
   const id = studyOptions.deck.id
   if (index === 0) { // 智能复习
+    if (studyOptions.deck.process === 0) {
+      Dialog.alert({
+        message: '无复习内容'
+      })
+      return
+    }
     router.push(`/study/auto/${id}?count=0`)
   } else if (index === 1) { // 学习+智能复习
     countDialog.count = 20
@@ -90,7 +96,13 @@ const study = async (action, index) => {
 }
 
 const confirmCount = () => {
-  router.push(`/study/auto/${studyOptions.deck.id}?count=${countDialog.count}`)
+  if (Number(countDialog.count) === 0) {
+    Dialog.alert({
+      message: '学习卡片数不能为0'
+    })
+  } else {
+    router.push(`/study/auto/${studyOptions.deck.id}?count=${countDialog.count}`)
+  }
 }
 
 </script>

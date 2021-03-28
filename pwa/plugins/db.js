@@ -32,8 +32,8 @@ export default {
       const deck = await db.deck.get(id)
       return deck
     },
-    updateName: async (id, name) => {
-      await db.deck.update(id, { name })
+    update: async (id, deck) => {
+      await db.deck.update(id, deck)
     },
     clearRecord: async (id) => {
       await db.deck.update(id, { process: 0, record: [] })

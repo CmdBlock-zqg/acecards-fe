@@ -204,7 +204,7 @@ const updateName = async (action) => {
     await axios.put('/deck/' + setting.deck.id, {
       name: setting.rename.name
     })
-    await db.deck.updateName(setting.deck.id, setting.rename.name)
+    await db.deck.update(setting.deck.id, { name: setting.rename.name })
     Toast.clear()
     Toast.success('操作成功')
   } catch {
