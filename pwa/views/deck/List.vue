@@ -141,10 +141,10 @@ const act = (action, index) => {
           forbidClick: true,
           message: '操作中...'
         })
-        await db.deck.clearRecord(setting.deck.id)
         await axios.put('/deck/' + setting.deck.id, {
           record: []
         })
+        await db.deck.clearRecord(setting.deck.id)
         localList = await db.deck.getList()
         Toast.clear()
       })
@@ -176,8 +176,8 @@ const act = (action, index) => {
           forbidClick: true,
           message: '操作中...'
         })
-        await db.deck.delete(setting.deck.id)
         await axios.delete('/deck/' + setting.deck.id)
+        await db.deck.delete(setting.deck.id)
         Toast.clear()
         await init()
       })

@@ -28,8 +28,10 @@ import { inject } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 
 const Dialog = inject('vant-dialog')
+const Toast = inject('vant-toast')
 
 import db from '../../plugins/db.js'
+import axios from '../../plugins/axios.js'
 
 const router = useRouter(), route = useRoute()
 
@@ -57,7 +59,16 @@ const next = async () => {
     }
   }
   if (tmpTime > time(30)) { // 结束
+    Toast.loading({
+      duration: 0,
+      forbidClick: true,
+      message: '操作中...'
+    })
+    await axios.put('/deck/' + id, {
+      record: deck.record
+    })
     await db.deck.update(deck.id, deck)
+    Toast.clear()
     Dialog.alert({
       message: '学习完成'
     })
