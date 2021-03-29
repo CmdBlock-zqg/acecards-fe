@@ -6,3 +6,13 @@ import App from './App.vue'
 import router from './router.js'
 
 createApp(App).use(router).use(Vant).mount('#app')
+
+/*
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('./sw.js', { scope: '/pwa/' }).then((reg) => {
+    console.log('ServiceWorker registered. ' + reg.scope);
+  }).catch(function(error) {
+    console.log('ServiceWorker registration failed with ' + error);
+  })
+}
+*/

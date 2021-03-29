@@ -11,8 +11,13 @@
   </van-nav-bar>
 
   <div class="container">
-    <span class="title">卡组</span>
-    <template v-for="i in list" :key="i.id">
+    <span class="title">待复习卡组</span>
+    <template v-for="i in reviewList" :key="i.id">
+      <ItemCard :name="i.name" :now="i.process" :tot="i.total" icon="arrow" @click="showStudyOptions(i)"></ItemCard>
+    </template>
+    <van-divider />
+    <span class="title">其他卡组</span>
+    <template v-for="i in otherList" :key="i.id">
       <ItemCard :name="i.name" :now="i.process" :tot="i.total" icon="arrow" @click="showStudyOptions(i)"></ItemCard>
     </template>
   </div>
@@ -48,16 +53,32 @@ import db from '../../plugins/db.js'
 
 const router = useRouter()
 
+const time = (offset = 0) => Math.floor(Date.now() / 1000) + offset
+
 ref: tab = 0
 watch($tab, () => {
   const path = ['/study', '/deck', '/settings']
   router.push(path[tab])
 })
 
-ref: list = []
+var list = []
+ref:reviewList = []
+ref:otherList = []
 
 const init = async () => {
   list = await db.deck.getList()
+  const reviewTime = await db.data.get('reviewTime')
+  if (!reviewTime) {
+    otherList = list
+    return
+  }
+  for (const i of list) {
+    if (reviewTime[i.id] && reviewTime[i.id] <= time(0)) {
+      reviewList.push(i)
+    } else {
+      otherList.push(i)
+    }
+  }
 }
 
 init()

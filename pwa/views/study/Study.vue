@@ -68,6 +68,12 @@ const next = async () => {
       record: deck.record
     })
     await db.deck.update(deck.id, deck)
+
+    let reviewTime = await db.data.get('reviewTime')
+    reviewTime = reviewTime ? reviewTime : {}
+    reviewTime[id] = tmpTime
+    await db.data.set('reviewTime', reviewTime)
+
     Toast.clear()
     Dialog.alert({
       message: '学习完成'
@@ -151,7 +157,7 @@ div.card {
   align-items: center;
   text-align: center;
   border-radius: 6px;
-  box-shadow: 0 .5em 1em -.125em rgba(10,10,10,.3),0 0 0 1px rgba(10,10,10,.02);
+  border: solid #808080 2px;
   color: #4a4a4a;
 }
 

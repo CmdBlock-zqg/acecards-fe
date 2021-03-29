@@ -127,7 +127,7 @@
 <style scoped>
   div.item {
     border-radius: 6px;
-    box-shadow: 0 .5em 1em -.125em rgba(10,10,10,.1),0 0 0 1px rgba(10,10,10,.02);
+    border: solid #808080 1px;
     color: #4a4a4a;
     display: block;
     padding: 1rem;
