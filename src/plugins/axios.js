@@ -4,7 +4,7 @@ import db from './db.js'
 import router from '../router.js'
 
 const http = axios.create({
-  baseURL: 'http://localhost:3001/api'
+  baseURL: '/api'
 })
 
 http.interceptors.request.use((config) => {

@@ -84,7 +84,7 @@ const init = async () => {
   loading = true
   localList = await db.deck.getList()
   try {
-    list = (await axios.get('/deck/')).data
+    list = (await axios.get('/deck')).data
   } finally {
     loading = false
   }

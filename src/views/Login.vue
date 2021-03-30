@@ -7,7 +7,6 @@
       <span class="title">AceCards</span>
       <span class="subtitle">卡片式记忆APP</span>
       <van-button type="primary" block class="button" @click="aauth">登录</van-button>
-      <van-button type="primary" block plain class="button" @click="offline">离线体验</van-button>
     </div>
   </div>
 </template>
@@ -53,21 +52,6 @@ const aauth = () => {
   window.location.href = 'https://aauth.link/#/launch/44pd4z9iwn85kxqb6v2rgxdqdq8dtfrow'
 }
 
-const offline = async () => {
-  Dialog.confirm({
-    title: '确认离线登录？',
-    message: '若离线登录，所有数据将存储在本地，清空无法找回。是否继续？'
-  })
-    .then(async () => {
-      await db.data.set('token', 'OFFLINE')
-      await db.data.set('name', '离线用户')
-      window.localStorage['token'] = 'OFFLINE'
-      window.localStorage['name'] = '离线用户'
-      router.push('/study')
-    })
-    .catch(() => { return })
-}
-
 </script>
 
 <style scoped>
@@ -78,6 +62,7 @@ const offline = async () => {
     font-size: 32px;
   }
   div.container {
+    box-sizing: border-box;
     height: 100vh;
     display: flex;
     flex-direction: column;

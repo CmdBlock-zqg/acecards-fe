@@ -6,11 +6,11 @@ const { resolve } = require('path')
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [vue()],
-  build: {
-    rollupOptions: {
-      input: {
-        main: resolve(__dirname, 'index.html'),
-        pwa: resolve(__dirname, 'pwa/index.html')
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3001',
+        changeOrigin: true
       }
     }
   }
