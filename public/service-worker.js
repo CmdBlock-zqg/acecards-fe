@@ -1,4 +1,4 @@
-this.importScripts('./sw/http.js', './sw/db.js')
+this.importScripts('./sw/http.js', './sw/db.js', './sw/webcache.js')
 
 var token = ''
 
@@ -30,21 +30,39 @@ const sync = async () => {
   }
 }
 
+const notify = async () => {
+  const reviewTime = await model.data.get('reviewTime')
+  const time = Math.floor(Date.now() / 1000)
+  let count = 0
+  for (const i of Object.keys(reviewTime)) {
+    count += time >= reviewTime[i]
+  }
+  console.log(reviewTime, time, count)
+  if (count !== 0) {
+    console.log('你有新的复习任务')
+    new Notification('你有新的复习任务', {
+      body: '待复习卡组数: ' + count,
+      tag: 'review',
+      icon: '/images/192.png'
+    })
+  }
+}
+
 const timer = async () => {
   if (!this.navigator.onLine) {
-    setTimeout(timer, 30000)
+    setTimeout(timer, 300000)
     return
   }
   try {
-    console.log('synchronizing data')
+    await notify()
     await sync()
   } finally {
-    setTimeout(timer, 30000)
+    setTimeout(timer, 300000)
   }
 }
 
 this.addEventListener('activate', async (e) => {
-  console.log('ServiceWorker activated.')
+  console.log('[sw] activated.')
   token = await model.data.get('token')
   timer()
 })
@@ -52,7 +70,24 @@ this.addEventListener('activate', async (e) => {
 this.addEventListener('fetch', async (e) => {
   let tmp = e.request.url.indexOf('/api')
   if (tmp === -1) {
+    e.respondWith(
+      caches.match(e.request).then((r) => {
+        return r || fetch(e.request).then((response) => {
+          return caches.open(cacheName).then((cache) => {
+            cache.put(e.request, response.clone())
+            return response
+          })
+        })
+      })
+    )
     return
+  }
+  if (this.navigator.onLine) {
+    try {
+      e.respondWith(await fetch(e.request))
+    } finally {
+      return
+    }
   }
   const url = e.request.url.slice(tmp + 4)
   tmp = url.indexOf('/deck')
@@ -67,4 +102,7 @@ this.addEventListener('fetch', async (e) => {
   } else if (method === 'DELETE') {
     await model.cache.setDelete(id)
   }
+  e.respondWith(async () => {
+    return new Response('已缓存')
+  })
 })

@@ -8,9 +8,10 @@ import router from './router.js'
 createApp(App).use(router).use(Vant).mount('#app')
 
 if ('serviceWorker' in navigator) {
+  Notification.requestPermission()
   navigator.serviceWorker.register('/service-worker.js', { scope: '/' }).then((reg) => {
-    console.log('ServiceWorker registered. ' + reg.scope);
+    console.log('[sw] registered at ' + reg.scope);
   }).catch(function(error) {
-    console.log('ServiceWorker registration failed with ' + error);
+    console.log('[sw] registration failed with ' + error);
   })
 }
