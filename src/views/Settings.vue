@@ -103,7 +103,7 @@ const logout = () => {
   })
     .then(async () => {
       await db.clearAll()
-      window.location.href = '/pwa/#/'
+      window.location.href = '/#/'
     })
     .catch(() => { return })
 }
