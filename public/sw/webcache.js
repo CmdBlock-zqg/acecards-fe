@@ -3,6 +3,7 @@ const cacheName = 'v1'
 const contentToCache = [
   '/',
   '/index.html',
+  '/favicon.ico',
   '/sw/db.js',
   '/sw/http.js',
   '/sw/webcache.js',
@@ -15,7 +16,7 @@ const contentToCache = [
 ]
 
 this.addEventListener('install', (e) => {
-  console.log('ServiceWorker installing')
+  console.log('[sw] installing')
   e.waitUntil(
     caches.open(cacheName).then((cache) => {
       return cache.addAll(contentToCache)

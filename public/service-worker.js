@@ -37,9 +37,7 @@ const notify = async () => {
   for (const i of Object.keys(reviewTime)) {
     count += time >= reviewTime[i]
   }
-  console.log(reviewTime, time, count)
   if (count !== 0) {
-    console.log('你有新的复习任务')
     new Notification('你有新的复习任务', {
       body: '待复习卡组数: ' + count,
       tag: 'review',

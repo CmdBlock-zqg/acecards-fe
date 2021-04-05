@@ -81,7 +81,7 @@
   })
   const showDialog = (t) => {
     dialog.ordered = 'true'
-    dialog.name = ''
+    dialog.name = t.name
     dialog.t = t
     dialog.lock = false
     dialog.show = true
