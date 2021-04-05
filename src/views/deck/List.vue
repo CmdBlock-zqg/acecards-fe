@@ -5,17 +5,18 @@
     <van-tabbar-item icon="setting-o">设置</van-tabbar-item>
   </van-tabbar>
 
-  <van-nav-bar
-    title="我的卡组"
-    @click-right="router.push('/deck/new')"
-  >
-    <template #right>
-      <van-icon name="plus"/>
-      <span class="van-nav-bar__text">新建</span>
-    </template>
-  </van-nav-bar>
-
   <div class="container">
+    <van-button
+      block
+      hairline
+      plain
+      icon="plus"
+      size="small"
+      style="margin-bottom: 16px;"
+      type="primary"
+      @click="router.push('/deck/new')"
+    >新建卡组</van-button>
+
     <span class="title">本地卡组</span>
     <template v-for="i in localList" :key="i.id">
       <ItemCard :name="i.name" :now="i.process" :tot="i.total" icon="setting-o" @click="showSettings(i)"></ItemCard>

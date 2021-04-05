@@ -4,12 +4,7 @@
     <van-tabbar-item icon="pending-payment">卡组</van-tabbar-item>
     <van-tabbar-item icon="setting-o">设置</van-tabbar-item>
   </van-tabbar>
-
-  <van-nav-bar
-    title="设置"
-  >
-  </van-nav-bar>
-
+  
   <div style="padding: 24px 16px;">
     <h1 class="username">{{ name }}</h1>
       <van-cell-group>

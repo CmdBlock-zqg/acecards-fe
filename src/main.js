@@ -7,6 +7,9 @@ import router from './router.js'
 
 createApp(App).use(router).use(Vant).mount('#app')
 
+
+
+
 if ('serviceWorker' in navigator) {
   Notification.requestPermission()
   navigator.serviceWorker.register('/service-worker.js', { scope: '/' }).then((reg) => {

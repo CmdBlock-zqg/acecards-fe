@@ -11,6 +11,7 @@
   </div>
 
   <div class="container" v-else>
+    <!--
     <span class="title">我的模板</span>
     <div class="item" v-for="i in template.private" :key="i.id">
       <div class="display">
@@ -24,6 +25,7 @@
     </div>
     <van-divider />
     <span class="title">系统模板</span>
+    -->
     <div class="item" v-for="i in template.public" :key="i.id">
       <div class="display">
         <b style="font-size: 1.1rem;">{{ i.name }}</b>
@@ -74,7 +76,7 @@
 
   const dialog = reactive({
     show: false,
-    t: null,
+    t: { id: '', name: '' },
     ordered: 'true',
     name: '',
     lock: false

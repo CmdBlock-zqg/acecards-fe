@@ -5,11 +5,6 @@
     <van-tabbar-item icon="setting-o">设置</van-tabbar-item>
   </van-tabbar>
 
-  <van-nav-bar
-    title="学习"
-  >
-  </van-nav-bar>
-
   <div class="container">
     <span class="title">待复习卡组</span>
     <template v-for="i in reviewList" :key="i.id">
