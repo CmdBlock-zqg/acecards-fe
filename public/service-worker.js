@@ -81,11 +81,7 @@ this.addEventListener('fetch', async (e) => {
     return
   }
   if (this.navigator.onLine) {
-    try {
-      e.respondWith(await fetch(e.request))
-    } finally {
-      return
-    }
+    return
   }
   const url = e.request.url.slice(tmp + 4)
   tmp = url.indexOf('/deck')

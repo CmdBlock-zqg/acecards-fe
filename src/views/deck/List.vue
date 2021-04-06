@@ -128,7 +128,7 @@ const showSettings = (deck) => {
 
 const act = (action, index) => {
   if (index === 0) { // rename
-    setting.rename.name = ''
+    setting.rename.name = setting.deck.name
     setting.rename.show = true
     setting.rename.lock = false
   } else if (index === 1) { // clear rec

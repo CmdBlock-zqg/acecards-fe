@@ -43,9 +43,6 @@ const name = window.localStorage.name
 var cache = null
 ref: cacheStateText = '检测中...'
 const init = async () => {
-
-  //await db.cache.setDelete("297400300319722496")
-
   cache = await db.cache.getList()
   cacheStateText = cache.length === 0 ? '已同步' : '未同步'
 }
@@ -94,7 +91,7 @@ const sync = async () => {
 const logout = () => {
   Dialog.confirm({
     title: '你确认退出登录吗？',
-    message: '登出后，本地信息将被全部清除，离线状态下未提交到服务器的信息将丢失，离线模式的所有数据都将消失。'
+    message: '登出后，本地信息将被全部清除，离线状态下未提交到服务器的信息将丢失。'
   })
     .then(async () => {
       await db.clearAll()
