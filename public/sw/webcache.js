@@ -12,7 +12,24 @@ const contentToCache = [
   '/images/96.png',
   '/images/144.png',
   '/images/192.png',
-  '/images/512.png'
+  '/images/512.png',
+
+  'assets/axios.js',
+  'assets/Login.js',
+  'assets/ItemCard.js',
+  'assets/List.js',
+  'assets/Study.js',
+  'assets/Review.js',
+  'assets/New.js',
+  'assets/List2.js',
+  'assets/Settings.js',
+  'assets/Login.css',
+  'assets/ItemCard.css',
+  'assets/Study.css',
+  'assets/New.css',
+  'assets/Review.css',
+  'assets/index.css',
+  'assets/index.js'
 ]
 
 this.addEventListener('install', (e) => {

@@ -4,6 +4,7 @@
   </div>
   <div v-if="status === 1" class="container">
     <div class="login">
+      <img style="width: 96px; height: 96px;" src="/images/192.png" alt="logo"> 
       <span class="title">AceCards</span>
       <span class="subtitle">卡片式记忆APP</span>
       <van-button type="primary" block class="button" @click="aauth">登录</van-button>

@@ -8,7 +8,7 @@ const http = axios.create({
 })
 
 http.interceptors.request.use((config) => {
-  config.headers = { token: window.localStorage['token'] }
+  config.headers = { token: encodeURI(window.localStorage['token']) }
   return config
 }, (error) => {
   Toast('网络错误 请检查网络是否连接')
@@ -18,6 +18,7 @@ http.interceptors.request.use((config) => {
 http.interceptors.response.use((response) => {
   return response
 }, async (error) => {
+  console.warn(error)
   await Dialog.alert({ message: error.response.data })
   if (error.response.status === 401) {
     await db.clearAll()
